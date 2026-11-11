@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'quvchilar Liderborti va Boshqaruv Paneli</title>
+  <!-- FontAwesome ikonkalari -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <style>
+    /* ==========================================
+   ASOSIY STILLAR (DARK MODE STANDART)
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #0b1329;
+  color: #f1f5f9;
+  padding: 20px 20px 90px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* HEADER VA TUGMALAR */
+.top-header {
+  background: #111c38;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-title h1 {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.header-title p {
+  color: #94a3b8;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.header-tag {
+  background: #d97706;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle-group {
+  display: flex;
+  background: #0b1329;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.btn-theme {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-theme:hover {
+  color: #fff;
+}
+
+.btn-theme.active-theme {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-login { background-color: #4f46e5; color: #ffffff; }
+.btn-login:hover { background-color: #4338ca; }
+
+.btn-register { background-color: #f43f5e; color: #ffffff; }
+.btn-register:hover { background-color: #e11d48; }
+
+.btn-logout { background-color: #ef4444; color: #ffffff; }
+.btn-logout:hover { background-color: #dc2626; }
+
+/* TABLAR */
+.tab-section { display: none; }
+.tab-section.active { display: block; }
+
+/* TOP 3 LIDERLAR (PODIUM) */
+.podium-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(99, 102, 241, 0.2);
+}
+
+.top-1-card {
+  background: #111c38;
+  border: 2px solid #f59e0b;
+  border-radius: 20px;
+  padding: 30px 20px 20px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.15);
+}
+
+.badge-top1 {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f59e0b;
+  color: #0b1329;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.top-2-3-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.runner-card {
+  background: #111c38;
+  border-radius: 20px;
+  padding: 20px 15px;
+  text-align: center;
+  position: relative;
+}
+
+.top-2-card { border: 1.5px solid #334155; }
+.top-3-card { border: 1.5px solid #f59e0b; }
+
+.badge-runner {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.badge-top2 { background: #1e293b; color: #94a3b8; }
+.badge-top3 { background: #451a03; color: #f59e0b; }
+
+.avatar-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 10px auto 12px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.top-1-card .avatar-wrapper {
+  width: 95px;
+  height: 95px;
+  border: 3px solid #f59e0b;
+  background: #0284c722;
+  font-size: 44px;
+}
+
+.top-2-card .avatar-wrapper { background: #88133722; }
+.top-3-card .avatar-wrapper { background: #713f1222; }
+
+.rank-number {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #f59e0b;
+  color: #0b1329;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #111c38;
+}
+
+.user-name { font-size: 17px; font-weight: 800; color: #ffffff; }
+.user-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; }
+
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.top-1-card .score-badge { background: #451a03; color: #fbbf24; border: 1px solid #78350f; }
+.runner-card .score-badge { background: #1e293b; color: #cbd5e1; font-size: 12px; }
+.top-3-card .score-badge { background: #451a03; color: #fbbf24; }
+
+/* CARD BOX VA JADVAL */
+.card-box {
+  background: #111c38;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #1e293b;
+  margin-bottom: 20px;
+}
+
+.card-box h3 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.student-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.student-list-table th, .student-list-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #1e293b;
+  font-size: 14px;
+}
+
+.student-list-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.student-list-table tbody tr:hover {
+  background-color: #1e293b;
+}
+
+.student-list-table th { background: #0b1329; color: #64748b; font-weight: 700; }
+
+.score-tag {
+  background: #451a03;
+  color: #fbbf24;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+/* PROFIL SAHIFASI */
+.profile-card {
+  background: #111c38;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #1e293b;
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
+  margin: 0 auto 16px auto;
+  border: 3px solid #6366f1;
+}
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.info-item {
+  background: #0b1329;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+}
+
+.info-item span {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.info-item p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+/* FORMA ELEMENTLARI */
+.form-row { display: flex; gap: 12px; margin-bottom: 14px; }
+.form-col { flex: 1; }
+.form-group-custom { margin-bottom: 14px; }
+
+.form-group-custom label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.form-group-custom input, 
+.form-group-custom select,
+.form-group-custom textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #1e293b;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background: #0b1329;
+  color: #ffffff;
+}
+
+.form-group-custom input:focus, 
+.form-group-custom select:focus,
+.form-group-custom textarea:focus {
+  border-color: #6366f1;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* PASTKI MENYU */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111c38;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #64748b;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 20%;
+}
+
+.nav-item i { font-size: 18px; }
+.nav-item.active { color: #818cf8; }
+
+/* MODAL OYNALAR */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.modal-card {
+  background: #111c38;
+  border: 1px solid #1e293b;
+  width: 100%;
+  max-width: 460px;
+  padding: 28px;
+  border-radius: 20px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-icon {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 22px;
+  color: #64748b;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.modal-head { text-align: center; margin-bottom: 20px; }
+.modal-head h2 { font-size: 22px; color: #ffffff; }
+.modal-head p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+.modal-switch { text-align: center; font-size: 13px; color: #94a3b8; margin-top: 16px; }
+.modal-switch a { color: #818cf8; font-weight: 700; text-decoration: none; }
+
+/* CHAT HISTORIYASI */
+.chat-history-box {
+  background: #0b1329;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 12px;
+  height: 160px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-bubble {
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  max-width: 80%;
+}
+
+.chat-bubble.sent {
+  background: #4f46e5;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-bubble.received {
+  background: #1e293b;
+  color: #e2e8f0;
+  align-self: flex-start;
+}
+
+/* ==========================================
+   LIGHT MODE (OQ REJIM) STILLARI
+   ========================================== */
+body.light-mode {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+body.light-mode .top-header,
+body.light-mode .top-1-card,
+body.light-mode .runner-card,
+body.light-mode .card-box,
+body.light-mode .profile-card,
+body.light-mode .bottom-nav,
+body.light-mode .modal-card {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .header-title h1,
+body.light-mode .card-box h3,
+body.light-mode .user-name,
+body.light-mode .profile-card h2,
+body.light-mode .info-item p,
+body.light-mode .modal-head h2 {
+  color: #0f172a;
+}
+
+body.light-mode .theme-toggle-group {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+body.light-mode .btn-theme {
+  color: #64748b;
+}
+
+body.light-mode .btn-theme.active-theme {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+body.light-mode .student-list-table th {
+  background: #f8fafc;
+  color: #475569;
+}
+
+body.light-mode .student-list-table td {
+  border-bottom-color: #e2e8f0;
+  color: #334155;
+}
+
+body.light-mode .student-list-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+body.light-mode .info-item,
+body.light-mode .chat-history-box,
+body.light-mode .form-group-custom input, 
+body.light-mode .form-group-custom select,
+body.light-mode .form-group-custom textarea {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+body.light-mode .rule-item {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155;
+}
+
+body.light-mode .rank-number {
+  border-color: #ffffff;
+}
+  </style>
+
+  <!-- SAYT HEADER QISMI -->
+  <header class="top-header">
+    <div class="header-title">
+      <span class="header-tag">Maktab Boshqaruv Paneli</span>
+      <h1>Eng Faol O'quvchilar Liderborti</h1>
+      <p>O'quvchilar, o'qituvchilar, zavuch va direktor uchun boshqaruv paneli.</p>
+    </div>
+
+    <div class="header-actions">
+      <!-- DARK VA LIGHT MODE TUGMALARI -->
+      <div class="theme-toggle-group">
+        <button id="theme-dark-btn" class="btn-theme active-theme" onclick="setTheme('dark')">
+          <i class="fa-solid fa-moon"></i> Dark
+        </button>
+        <button id="theme-light-btn" class="btn-theme" onclick="setTheme('light')">
+          <i class="fa-solid fa-sun"></i> Light
+        </button>
+      </div>
+
+      <!-- GUEST TUGMALARI -->
+      <div class="auth-buttons" id="auth-guest">
+        <button class="btn btn-login" onclick="openModal('loginModal')">
+          <i class="fa-solid fa-user"></i> Kirish
+        </button>
+        <button class="btn btn-register" onclick="openModal('registerModal')">
+          <i class="fa-solid fa-user-plus"></i> Ro'yxatdan o'tish
+        </button>
+      </div>
+
+      <!-- USER TUGMALARI -->
+      <div class="auth-buttons" id="auth-user" style="display: none;">
+        <button class="btn btn-login" onclick="switchTab('profil')">
+          <i class="fa-solid fa-id-card"></i> Profil
+        </button>
+        <button class="btn btn-logout" onclick="handleLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Chiqish
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ================= TAB 1: LIDERLAR (TOP 3) ================= -->
+  <main id="tab-liderlar" class="tab-section active">
+    <section class="podium-container">
+      
+      <!-- 1-O'RIN CHEMPION -->
+      <div class="top-1-card clickable-card" onclick="openStudentModal(0)">
+        <div class="badge-top1">
+          <i class="fa-solid fa-crown"></i> 1-O'RIN CHEMPION
+        </div>
+        <div class="avatar-wrapper" id="top1-avatar">🤖</div>
+        <div class="rank-number">1</div>
+        <div class="user-name" id="top1-name">Ali Valiyev</div>
+        <div class="user-sub" id="top1-class">10-A sinf</div>
+        <div class="score-badge">
+          <i class="fa-solid fa-bolt"></i> <span id="top1-score">120</span> BALL
+        </div>
+      </div>
+
+      <!-- 2 VA 3-O'RINLAR -->
+      <div class="top-2-3-grid">
+        <div class="runner-card top-2-card clickable-card" onclick="openStudentModal(1)">
+          <div class="badge-runner badge-top2">2-O'RIN</div>
+          <div class="avatar-wrapper" id="top2-avatar" style="font-size: 30px;">🚀</div>
+          <div class="user-name" id="top2-name">Sardor Azimov</div>
+          <div class="user-sub" id="top2-class">9-B sinf</div>
+          <div class="score-badge"><span id="top2-score">95</span> ball</div>
+        </div>
+
+        <div class="runner-card top-3-card clickable-card" onclick="openStudentModal(2)">
+          <div class="badge-runner badge-top3">3-O'RIN</div>
+          <div class="avatar-wrapper" id="top3-avatar" style="font-size: 30px;">⭐</div>
+          <div class="user-name" id="top3-name">Madina Umarova</div>
+          <div class="user-sub" id="top3-class">10-A sinf</div>
+          <div class="score-badge"><span id="top3-score">80</span> ball</div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- ================= TAB 2: O'QUVCHILAR RO'YXATI ================= -->
+  <main id="tab-oquvchilar" class="tab-section">
+    <div class="card-box">
+      <h3><i class="fa-solid fa-users"></i> Barcha O'quvchilar Reytingi</h3>
+      <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">💡 O'quvchi haqida batafsil ko'rish yoki xabar yozish uchun ustiga bosing.</p>
+      <table class="student-list-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ism Familiya</th>
+            <th>Sinf</th>
+            <th>Ball</th>
+          </tr>
+        </thead>
+        <tbody id="students-table-body">
+          <!-- JS dinamik to'ldiradi -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+
+  <!-- ================= TAB 3: BAHOLASH TARTIBI ================= -->
+  <main id="tab-baholash" class="tab-section">
+    <div class="card-box">
+      <h3><i class="fa-solid fa-chart-line"></i> Ballar va Baholash Tartibi</h3>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+        O'quvchilarning liderbortdagi o'rinlari va ballari taqsimot mezonlari:
+      </p>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Ballar berilish holatlari:
+        </h4>
+        <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+          <li class="rule-item" style="background: #0b1329; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+            <span>📚 Darsdagi faollik va to'g'ri javob</span>
+            <span style="color: #fbbf24; font-weight: bold;">+10 ball</span>
+          </li>
+          <li class="rule-item" style="background: #0b1329; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+            <span>📝 Uy vazifasini sifatli bajarish</span>
+            <span style="color: #fbbf24; font-weight: bold;">+15 ball</span>
+          </li>
+          <li class="rule-item" style="background: #0b1329; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+            <span>🧪 Mustaqil ish / loyiha</span>
+            <span style="color: #fbbf24; font-weight: bold;">+25 ball</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-star" style="color: #f59e0b;"></i> Muhim Eslatma:
+        </h4>
+        <div class="rule-item" style="background: #0b1329; padding: 14px; border-radius: 10px; border: 1px solid #1e293b; font-size: 13px; color: #94a3b8; line-height: 1.6;">
+          <p>⚠️ Ballar faqat ro'yxatdan o'tgan fan <b style="color: #6366f1;">o'qituvchilari</b> tomonidan adolatli ravishda kiritiladi. O'quvchilar o'zlariga ball qo'sha olmaydi.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- ================= TAB 4: O'QITUVCHILAR BALL QO'YISH MENYUSI ================= -->
+  <main id="tab-kiritish" class="tab-section">
+    <div class="card-box">
+      <h3><i class="fa-solid fa-award"></i> O'quvchiga Ball Qo'shish (Faqat O'qituvchi)</h3>
+      <form onsubmit="handleGiveScore(event)">
+        <div class="form-group-custom">
+          <label>O'quvchini tanlang</label>
+          <select id="selectStudent" required></select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col form-group-custom">
+            <label>Qo'shiladigan Ball</label>
+            <input type="number" id="inputScore" placeholder="Masalan: 15" min="1" required>
+          </div>
+
+          <div class="form-col form-group-custom">
+            <label>Sabab</label>
+            <select id="scoreReason">
+              <option value="Darsdagi faollik">Darsdagi faollik</option>
+              <option value="Uy vazifasi uchun">Uy vazifasi uchun</option>
+              <option value="Mustaqil ish">Mustaqil ish</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" style="background: #10b981;">
+          <i class="fa-solid fa-plus-circle"></i> Ballni Tasdiqlash
+        </button>
+      </form>
+    </div>
+  </main>
+
+
+  <!-- ================= TAB 5: ZAVUCH UCHUN O'QUVCHINI CHIQARIB YUBORISH MENYUSI ================= -->
+  <main id="tab-zavuch" class="tab-section">
+    <div class="card-box" style="border: 1.5px solid #ef4444;">
+      <h3 style="color: #ef4444;"><i class="fa-solid fa-user-slash"></i> O'quvchini Maktabdan Chiqarish (Zavuch Paneli)</h3>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+        Ushbu bo'lim orqali intizomsiz yoki o'qishdan bo'shatilgan o'quvchilarni tizimdan butunlay chiqarib yuborishingiz mumkin.
+      </p>
+
+      <form onsubmit="handleExpelStudent(event)">
+        <div class="form-group-custom">
+          <label>Chiqarib yuboriladigan o'quvchini tanlang</label>
+          <select id="selectExpelStudent" required></select>
+        </div>
+
+        <div class="form-group-custom">
+          <label>Chiqarib yuborish sababi</label>
+          <textarea id="expelReason" rows="3" placeholder="Masalan: O'qishni boshqa maktabga ko'chirgani sababli..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" style="background: #ef4444;">
+          <i class="fa-solid fa-trash-can"></i> O'quvchini Tizimdan Chiqarish
+        </button>
+      </form>
+    </div>
+  </main>
+
+
+  <!-- ================= TAB 6: SHAXSIY PROFIL MENYUSI ================= -->
+  <main id="tab-profil" class="tab-section">
+    <div class="profile-card">
+      <div class="profile-avatar" id="prof-avatar-icon">👤</div>
+      <h2 id="prof-fullname" style="font-size: 22px;">---</h2>
+      <p id="prof-role-badge" style="color: #38bdf8; font-size: 13px; font-weight: bold; margin-top: 4px;">---</p>
+
+      <div class="profile-info-grid">
+        <div class="info-item">
+          <span>Hujjat / Ma'lumot</span>
+          <p id="prof-doc-info">---</p>
+        </div>
+        <div class="info-item">
+          <span>Aloqa raqami</span>
+          <p id="prof-contact">---</p>
+        </div>
+        <div class="info-item">
+          <span>Foydalanuvchi Logini</span>
+          <p id="prof-login">---</p>
+        </div>
+        <div class="info-item">
+          <span>Sinf / Ball / Huquq</span>
+          <p id="prof-score" style="color: #fbbf24;">---</p>
+        </div>
+      </div>
+
+      <button onclick="handleLogout()" class="btn btn-logout" style="width: 100%; margin-top: 20px;">
+        <i class="fa-solid fa-right-from-bracket"></i> Tizimdan Chiqish
+      </button>
+    </div>
+  </main>
+
+
+  <!-- PASTKI MENYU (BOTTOM NAVIGATION) -->
+  <nav class="bottom-nav">
+    <a onclick="switchTab('liderlar')" id="nav-liderlar" class="nav-item active">
+      <i class="fa-solid fa-trophy"></i>
+      <span>Liderlar</span>
+    </a>
+    <a onclick="switchTab('oquvchilar')" id="nav-oquvchilar" class="nav-item">
+      <i class="fa-solid fa-users"></i>
+      <span>O'quvchilar</span>
+    </a>
+    <a onclick="switchTab('baholash')" id="nav-baholash" class="nav-item">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Tartib</span>
+    </a>
+    <a onclick="switchTab('kiritish')" id="nav-kiritish" class="nav-item" style="display: none;">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <span>Ballar</span>
+    </a>
+    <a onclick="switchTab('zavuch')" id="nav-zavuch" class="nav-item" style="display: none; color: #ef4444;">
+      <i class="fa-solid fa-user-slash"></i>
+      <span>Chetlashtirish</span>
+    </a>
+    <a onclick="switchTab('profil')" id="nav-profil" class="nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+
+  <!-- O'QUVCHI MA'LUMOTLARI VA XABAR YOZISH MODALI -->
+  <div id="studentDetailModal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="close-icon" onclick="closeModal('studentDetailModal')">&times;</button>
+      
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div id="modalStudentAvatar" style="font-size: 50px; margin-bottom: 8px;">🤖</div>
+        <h2 id="modalStudentName" style="font-size: 20px;">---</h2>
+        <p id="modalStudentClass" style="color: #94a3b8; font-size: 13px;">---</p>
+      </div>
+
+      <div class="rule-item" style="background: #0b1329; border: 1px solid #1e293b; border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-around; text-align: center;">
+        <div>
+          <span style="font-size: 11px; color: #64748b; font-weight: bold; text-transform: uppercase;">To'plangan ball</span>
+          <p id="modalStudentScore" style="color: #fbbf24; font-size: 16px; font-weight: bold; margin-top: 2px;">0 ball</p>
+        </div>
+        <div>
+          <span style="font-size: 11px; color: #64748b; font-weight: bold; text-transform: uppercase;">Liderlik o'rni</span>
+          <p id="modalStudentRank" style="color: #38bdf8; font-size: 16px; font-weight: bold; margin-top: 2px;">#-o'rin</p>
+        </div>
+      </div>
+
+      <div class="form-group-custom">
+        <label><i class="fa-solid fa-paper-plane"></i> O'quvchiga shaxsiy xabar yuborish</label>
+        
+        <div class="chat-history-box" id="studentChatHistory"></div>
+
+        <form onsubmit="handleSendPrivateMessage(event)">
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="privateMsgInput" placeholder="Xabar yozing..." required style="flex: 1;">
+            <button type="submit" class="btn btn-login" style="padding: 10px 16px;">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- RO'YXATDAN O'TISH MODALI -->
+  <div id="registerModal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="close-icon" onclick="closeModal('registerModal')">&times;</button>
+      <div class="modal-head">
+        <h2>Ro'yxatdan o'tish</h2>
+        <p>Tizimda shaxsiy profilingizni yarating</p>
+      </div>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group-custom">
+          <label>Kim sifatida ro'yxatdan o'tasiz?</label>
+          <select id="regUserType" onchange="toggleRoleFields()" required>
+            <option value="student">O'quvchi</option>
+            <option value="teacher">O'qituvchi</option>
+            <option value="zavuch">Zavuch (O'quv ishlari bo'yicha o'rinbosar)</option>
+            <option value="director">Direktor</option>
+          </select>
+        </div>
+
+        <div class="form-group-custom">
+          <label>Profil Emojisini tanlang</label>
+          <div style="display: flex; gap: 8px;" id="emojiPicker">
+            <button type="button" onclick="selectEmoji('🤖')" class="emoji-btn" style="font-size: 20px; padding: 6px 10px; background: #0b1329; border: 2px solid #6366f1; border-radius: 8px; cursor: pointer;">🤖</button>
+            <button type="button" onclick="selectEmoji('🚀')" class="emoji-btn" style="font-size: 20px; padding: 6px 10px; background: #0b1329; border: 1.5px solid #1e293b; border-radius: 8px; cursor: pointer;">🚀</button>
+            <button type="button" onclick="selectEmoji('⭐')" class="emoji-btn" style="font-size: 20px; padding: 6px 10px; background: #0b1329; border: 1.5px solid #1e293b; border-radius: 8px; cursor: pointer;">⭐</button>
+            <button type="button" onclick="selectEmoji('🦊')" class="emoji-btn" style="font-size: 20px; padding: 6px 10px; background: #0b1329; border: 1.5px solid #1e293b; border-radius: 8px; cursor: pointer;">🦊</button>
+            <button type="button" onclick="selectEmoji('🐱')" class="emoji-btn" style="font-size: 20px; padding: 6px 10px; background: #0b1329; border: 1.5px solid #1e293b; border-radius: 8px; cursor: pointer;">🐱</button>
+          </div>
+          <input type="hidden" id="selectedEmoji" value="🤖">
+        </div>
+
+        <div class="form-group-custom">
+          <label>Ism va Familiya</label>
+          <input type="text" id="regName" placeholder="Masalan: Jasur Aliyev" required>
+        </div>
+
+        <!-- O'quvchi maydonlari -->
+        <div id="student-fields">
+          <div class="form-row">
+            <div class="form-col form-group-custom">
+              <label>Sinf</label>
+              <select id="regClass">
+                <option value="9-A">9-A sinf</option>
+                <option value="9-B">9-B sinf</option>
+                <option value="10-A">10-A sinf</option>
+                <option value="10-B">10-B sinf</option>
+              </select>
+            </div>
+
+            <div class="form-col form-group-custom">
+              <label>JShShIR (14 xona)</label>
+              <input type="text" id="regJshshir" maxlength="14" pattern="\d{14}" placeholder="30101010000000">
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Ota-ona Telefon Raqami</label>
+            <input type="tel" id="regParentPhone" placeholder="+998901234567">
+          </div>
+        </div>
+
+        <!-- Xodimlar (O'qituvchi, Zavuch, Direktor) uchun maydonlar -->
+        <div id="staff-fields" style="display: none;">
+          <div class="form-row">
+            <div class="form-col form-group-custom">
+              <label>Pasport Seriyasi va Raqami</label>
+              <input type="text" id="regPassport" placeholder="AA1234567">
+            </div>
+
+            <div class="form-col form-group-custom">
+              <label>Telefon Raqam</label>
+              <input type="tel" id="regStaffPhone" placeholder="+998909998877">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col form-group-custom">
+            <label>Login</label>
+            <input type="text" id="regLogin" placeholder="Login nomi" required>
+          </div>
+
+          <div class="form-col form-group-custom">
+            <label>Parol</label>
+            <input type="password" id="regPassword" placeholder="******" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Ro'yxatdan o'tish</button>
+      </form>
+
+      <p class="modal-switch">
+        Akkountingiz bormi? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Kirish</a>
+      </p>
+    </div>
+  </div>
+
+
+  <!-- KIRISH MODALI -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="close-icon" onclick="closeModal('loginModal')">&times;</button>
+      <div class="modal-head">
+        <h2>Tizimga kirish</h2>
+        <p>Shaxsiy kabinetingizga kiring</p>
+      </div>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group-custom">
+          <label>Login</label>
+          <input type="text" id="loginUsername" placeholder="Login nomi" required>
+        </div>
+        <div class="form-group-custom">
+          <label>Parol</label>
+          <input type="password" id="loginPassword" placeholder="******" required>
+        </div>
+        <button type="submit" class="btn-submit">Kirish</button>
+      </form>
+
+      <p class="modal-switch">
+        Akkountingiz yo'qmi? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Ro'yxatdan o'tish</a>
+      </p>
+    </div>
+  </div>
+
+
+  <!-- JAVASCRIPT LOGIKASI -->
+  <script>
+    // Theme (Mavzu) logikasi
+    function setTheme(theme) {
+      const darkBtn = document.getElementById('theme-dark-btn');
+      const lightBtn = document.getElementById('theme-light-btn');
+
+      if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('app_theme', 'light');
+        if(darkBtn && lightBtn) {
+          darkBtn.classList.remove('active-theme');
+          lightBtn.classList.add('active-theme');
+        }
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('app_theme', 'dark');
+        if(darkBtn && lightBtn) {
+          lightBtn.classList.remove('active-theme');
+          darkBtn.classList.add('active-theme');
+        }
+      }
+    }
+
+    // Dastlabki standart foydalanuvchilar
+    const initialUsers = [
+      { id: 1, role: "student", name: "Ali Valiyev", class: "10-A", score: 120, jshshir: "30101012345678", parentPhone: "+998901112233", login: "ali10", password: "123", avatar: "🤖", messages: [{ sender: "Tizim", text: "Salom! Liderbortda 1-o'rinni egalladingiz, tabriklayman!" }] },
+      { id: 2, role: "student", name: "Sardor Azimov", class: "9-B", score: 95, jshshir: "30202023456789", parentPhone: "+998912223344", login: "sardor9", password: "123", avatar: "🚀", messages: [{ sender: "Tizim", text: "Keyingi darsga faolroq qatnashsangiz ballaringiz oshadi." }] },
+      { id: 3, role: "student", name: "Madina Umarova", class: "10-A", score: 80, jshshir: "30303034567890", parentPhone: "+998933334455", login: "madina10", password: "123", avatar: "⭐", messages: [] }
+    ];
+
+    let users = JSON.parse(localStorage.getItem('app_users')) || initialUsers;
+    let currentUser = JSON.parse(localStorage.getItem('app_current_user')) || null;
+    let selectedStudentIndex = null;
+
+    function saveData() {
+      localStorage.setItem('app_users', JSON.stringify(users));
+      localStorage.setItem('app_current_user', JSON.stringify(currentUser));
+    }
+
+    window.onload = function() {
+      // Saqlangan rejimni tiklash
+      const savedTheme = localStorage.getItem('app_theme') || 'dark';
+      setTheme(savedTheme);
+
+      saveData();
+      updateLeaderboard();
+      toggleRoleFields();
+      updateProfileUI();
+    };
+
+    function selectEmoji(emoji) {
+      document.getElementById('selectedEmoji').value = emoji;
+      const buttons = document.querySelectorAll('#emojiPicker button');
+      buttons.forEach(btn => {
+        if (btn.innerText === emoji) {
+          btn.style.borderColor = '#6366f1';
+        } else {
+          btn.style.borderColor = '#1e293b';
+        }
+      });
+    }
+
+    function toggleRoleFields() {
+      const userType = document.getElementById('regUserType').value;
+      const studentFields = document.getElementById('student-fields');
+      const staffFields = document.getElementById('staff-fields');
+
+      if (userType === 'student') {
+        studentFields.style.display = 'block';
+        staffFields.style.display = 'none';
+        document.getElementById('regJshshir').required = true;
+        document.getElementById('regParentPhone').required = true;
+        document.getElementById('regPassport').required = false;
+        document.getElementById('regStaffPhone').required = false;
+      } else {
+        studentFields.style.display = 'none';
+        staffFields.style.display = 'block';
+        document.getElementById('regJshshir').required = false;
+        document.getElementById('regParentPhone').required = false;
+        document.getElementById('regPassport').required = true;
+        document.getElementById('regStaffPhone').required = true;
+      }
+    }
+
+    function getStudentsOnly() {
+      return users.filter(u => u.role === 'student').sort((a, b) => b.score - a.score);
+    }
+
+    function updateLeaderboard() {
+      const sortedStudents = getStudentsOnly();
+
+      if (sortedStudents[0]) {
+        document.getElementById('top1-name').innerText = sortedStudents[0].name;
+        document.getElementById('top1-class').innerText = sortedStudents[0].class + " sinf";
+        document.getElementById('top1-score').innerText = sortedStudents[0].score;
+        document.getElementById('top1-avatar').innerText = sortedStudents[0].avatar || '🤖';
+      } else {
+        document.getElementById('top1-name').innerText = "---";
+        document.getElementById('top1-class').innerText = "---";
+        document.getElementById('top1-score').innerText = "0";
+      }
+
+      if (sortedStudents[1]) {
+        document.getElementById('top2-name').innerText = sortedStudents[1].name;
+        document.getElementById('top2-class').innerText = sortedStudents[1].class + " sinf";
+        document.getElementById('top2-score').innerText = sortedStudents[1].score;
+        document.getElementById('top2-avatar').innerText = sortedStudents[1].avatar || '🚀';
+      } else {
+        document.getElementById('top2-name').innerText = "---";
+        document.getElementById('top2-class').innerText = "---";
+        document.getElementById('top2-score').innerText = "0";
+      }
+
+      if (sortedStudents[2]) {
+        document.getElementById('top3-name').innerText = sortedStudents[2].name;
+        document.getElementById('top3-class').innerText = sortedStudents[2].class + " sinf";
+        document.getElementById('top3-score').innerText = sortedStudents[2].score;
+        document.getElementById('top3-avatar').innerText = sortedStudents[2].avatar || '⭐';
+      } else {
+        document.getElementById('top3-name').innerText = "---";
+        document.getElementById('top3-class').innerText = "---";
+        document.getElementById('top3-score').innerText = "0";
+      }
+
+      const tableBody = document.getElementById('students-table-body');
+      const selectBox = document.getElementById('selectStudent');
+      const selectExpelBox = document.getElementById('selectExpelStudent');
+      
+      tableBody.innerHTML = "";
+      selectBox.innerHTML = "";
+      if(selectExpelBox) selectExpelBox.innerHTML = "";
+
+      sortedStudents.forEach((student, index) => {
+        tableBody.innerHTML += `
+          <tr onclick="openStudentModal(${index})">
+            <td><b>${index + 1}</b></td>
+            <td><span style="font-size: 16px; margin-right: 6px;">${escapeHtml(student.avatar || '🤖')}</span>${escapeHtml(student.name)}</td>
+            <td>${escapeHtml(student.class)}</td>
+            <td><span class="score-tag">${student.score} ball</span></td>
+          </tr>
+        `;
+        selectBox.innerHTML += `<option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.class)}) - ${student.score} ball</option>`;
+        if(selectExpelBox) {
+          selectExpelBox.innerHTML += `<option value="${student.id}">${escapeHtml(student.name)} (${escapeHtml(student.class)})</option>`;
+        }
+      });
+    }
+
+    function openStudentModal(index) {
+      const sortedStudents = getStudentsOnly();
+      if (index >= sortedStudents.length) return;
+      selectedStudentIndex = index;
+      const student = sortedStudents[index];
+
+      document.getElementById('modalStudentAvatar').innerText = student.avatar || '🤖';
+      document.getElementById('modalStudentName').innerText = student.name;
+      document.getElementById('modalStudentClass').innerText = student.class + " sinf o'quvchisi";
+      document.getElementById('modalStudentScore').innerText = student.score + " ball";
+      document.getElementById('modalStudentRank').innerText = (index + 1) + "-o'rin";
+
+      renderPrivateChatHistory();
+      openModal('studentDetailModal');
+    }
+
+    function renderPrivateChatHistory() {
+      const historyBox = document.getElementById('studentChatHistory');
+      historyBox.innerHTML = "";
+
+      const sortedStudents = getStudentsOnly();
+      const student = sortedStudents[selectedStudentIndex];
+
+      if (student && student.messages && student.messages.length > 0) {
+        student.messages.forEach(msg => {
+          historyBox.innerHTML += `<div class="chat-bubble sent"><b>${escapeHtml(msg.sender)}:</b> ${escapeHtml(msg.text)}</div>`;
+        });
+      } else {
+        historyBox.innerHTML = `<p style="font-size: 12px; color: #64748b; text-align: center;">Hozircha xabarlar yo'q.</p>`;
+      }
+      historyBox.scrollTop = historyBox.scrollHeight;
+    }
+
+    function handleSendPrivateMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('privateMsgInput');
+      const text = input.value.trim();
+
+      if (text && selectedStudentIndex !== null) {
+        const sortedStudents = getStudentsOnly();
+        const student = sortedStudents[selectedStudentIndex];
+        
+        if (student) {
+          const mainUser = users.find(u => u.id === student.id);
+          if (mainUser) {
+            if (!mainUser.messages) mainUser.messages = [];
+            const senderName = currentUser ? currentUser.name : "Mehmon";
+            mainUser.messages.push({ sender: senderName, text: text });
+            
+            saveData();
+            input.value = "";
+            renderPrivateChatHistory();
+          }
+        }
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const userType = document.getElementById('regUserType').value;
+      const name = document.getElementById('regName').value;
+      const login = document.getElementById('regLogin').value;
+      const password = document.getElementById('regPassword').value;
+      const avatar = document.getElementById('selectedEmoji').value;
+
+      if (users.some(u => u.login === login)) {
+        alert("Ushbu login band, iltimos boshqa login kiriting!");
+        return;
+      }
+
+      let newUser = {
+        id: Date.now(),
+        role: userType,
+        name: name,
+        login: login,
+        password: password,
+        score: 0,
+        avatar: avatar,
+        messages: []
+      };
+
+      if (userType === 'student') {
+        newUser.class = document.getElementById('regClass').value;
+        newUser.jshshir = document.getElementById('regJshshir').value;
+        newUser.parentPhone = document.getElementById('regParentPhone').value;
+      } else {
+        newUser.passport = document.getElementById('regPassport').value;
+        newUser.phone = document.getElementById('regStaffPhone').value;
+      }
+
+      users.push(newUser);
+      currentUser = newUser;
+      saveData();
+
+      updateLeaderboard();
+      updateProfileUI();
+      closeModal('registerModal');
+      alert(`Xush kelibsiz, ${name}! Muvaffaqiyatli ro'yxatdan o'tdingiz.`);
+      switchTab('profil');
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const loginVal = document.getElementById('loginUsername').value;
+      const passVal = document.getElementById('loginPassword').value;
+      
+      const foundUser = users.find(u => u.login === loginVal && u.password === passVal);
+      if (foundUser) {
+        currentUser = foundUser;
+        saveData();
+        updateProfileUI();
+        closeModal('loginModal');
+        alert("Xush kelibsiz, " + currentUser.name + "!");
+        switchTab('profil');
+      } else {
+        alert("Login yoki parol noto'g'ri!");
+      }
+    }
+
+    function updateProfileUI() {
+      const kiritishNavBtn = document.getElementById('nav-kiritish');
+      const zavuchNavBtn = document.getElementById('nav-zavuch');
+
+      if (currentUser) {
+        document.getElementById('auth-guest').style.display = 'none';
+        document.getElementById('auth-user').style.display = 'flex';
+
+        document.getElementById('prof-fullname').innerText = currentUser.name;
+        document.getElementById('prof-login').innerText = currentUser.login;
+        document.getElementById('prof-avatar-icon').innerText = currentUser.avatar || '👤';
+
+        if (currentUser.role === 'teacher') {
+          document.getElementById('prof-role-badge').innerText = "👨‍🏫 Fan O'qituvchisi";
+          document.getElementById('prof-doc-info').innerText = currentUser.passport || "---";
+          document.getElementById('prof-contact').innerText = currentUser.phone || "---";
+          document.getElementById('prof-score').innerText = "Ball kiritish huquqi";
+          if (kiritishNavBtn) kiritishNavBtn.style.display = 'flex';
+          if (zavuchNavBtn) zavuchNavBtn.style.display = 'none';
+        } else if (currentUser.role === 'zavuch') {
+          document.getElementById('prof-role-badge').innerText = "📋 Zavuch (O'quv ishlari bo'yicha o'rinbosar)";
+          document.getElementById('prof-doc-info').innerText = currentUser.passport || "---";
+          document.getElementById('prof-contact').innerText = currentUser.phone || "---";
+          document.getElementById('prof-score').innerText = "Chetlashtirish huquqi";
+          if (kiritishNavBtn) kiritishNavBtn.style.display = 'none';
+          if (zavuchNavBtn) zavuchNavBtn.style.display = 'flex';
+        } else if (currentUser.role === 'director') {
+          document.getElementById('prof-role-badge').innerText = "🏛️ Maktab Direktori";
+          document.getElementById('prof-doc-info').innerText = currentUser.passport || "---";
+          document.getElementById('prof-contact').innerText = currentUser.phone || "---";
+          document.getElementById('prof-score').innerText = "To'liq boshqaruv huquqi";
+          if (kiritishNavBtn) kiritishNavBtn.style.display = 'none';
+          if (zavuchNavBtn) zavuchNavBtn.style.display = 'none';
+        } else {
+          document.getElementById('prof-role-badge').innerText = "🎓 " + currentUser.class + " sinf O'quvchisi";
+          document.getElementById('prof-doc-info').innerText = currentUser.jshshir || "---";
+          document.getElementById('prof-contact').innerText = currentUser.parentPhone || "---";
+          document.getElementById('prof-score').innerText = currentUser.score + " ball";
+          if (kiritishNavBtn) kiritishNavBtn.style.display = 'none';
+          if (zavuchNavBtn) zavuchNavBtn.style.display = 'none';
+          
+          if (document.getElementById('tab-kiritish').classList.contains('active') || document.getElementById('tab-zavuch').classList.contains('active')) {
+            switchTab('liderlar');
+          }
+        }
+      } else {
+        document.getElementById('auth-guest').style.display = 'flex';
+        document.getElementById('auth-user').style.display = 'none';
+        if (kiritishNavBtn) kiritishNavBtn.style.display = 'none';
+        if (zavuchNavBtn) zavuchNavBtn.style.display = 'none';
+      }
+    }
+
+    function handleLogout() {
+      if (confirm("Haqiqatdan ham tizimdan chiqmoqchimisiz?")) {
+        currentUser = null;
+        saveData();
+        updateProfileUI();
+        switchTab('liderlar');
+        alert("Tizimdan muvaffaqiyatli chiqdingiz.");
+      }
+    }
+
+    function handleGiveScore(e) {
+      e.preventDefault();
+      const studentId = parseInt(document.getElementById('selectStudent').value);
+      const points = parseInt(document.getElementById('inputScore').value);
+
+      const student = users.find(u => u.id === studentId);
+      if (student) {
+        student.score += points;
+        saveData();
+        alert(`Muvaffaqiyatli! ${student.name} ga ${points} ball qo'shildi.`);
+        document.getElementById('inputScore').value = "";
+        updateLeaderboard();
+        updateProfileUI();
+        switchTab('liderlar');
+      }
+    }
+
+    function handleExpelStudent(e) {
+      e.preventDefault();
+      const studentId = parseInt(document.getElementById('selectExpelStudent').value);
+      const reason = document.getElementById('expelReason').value;
+
+      const studentIndex = users.findIndex(u => u.id === studentId);
+      if (studentIndex !== -1) {
+        const studentName = users[studentIndex].name;
+        users.splice(studentIndex, 1);
+        saveData();
+
+        alert(`Diqqat! ${studentName} maktabdan chiqarib yuborildi.\nSabab: ${reason}`);
+        document.getElementById('expelReason').value = "";
+        updateLeaderboard();
+        updateProfileUI();
+        switchTab('liderlar');
+      }
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+      const targetTab = document.getElementById('tab-' + tabName);
+      const targetNav = document.getElementById('nav-' + tabName);
+
+      if (targetTab) targetTab.classList.add('active');
+      if (targetNav) targetNav.classList.add('active');
+    }
+
+    function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+    function switchModal(from, to) { closeModal(from); openModal(to); }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    window.onclick = function(e) {
+      if (e.target.classList.contains('modal-overlay')) e.target.style.display = 'none';
+    };
+  </script>
+</body>
+</html>
